@@ -9,7 +9,7 @@
 module.exports = function(sequelize, DataTypes) {
     var Image = sequelize.define("Image", {
         name:{
-            type : DataTypes.STRING,
+            type : DataTypes.TEXT,
             allowNull : false ,
         },
         title:{
