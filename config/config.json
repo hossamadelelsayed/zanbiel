@@ -1,0 +1,9 @@
+{
+  "production": {
+    "database": "zembel",
+    "username": "root",
+    "password": null,
+    "host": "localhost",
+    "dialect": "mysql"
+  }
+}
