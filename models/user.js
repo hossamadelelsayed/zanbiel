@@ -1,7 +1,10 @@
 "use strict";
+var localize = require('../public/lang/lang');
 //var bcrypt = require('bcryptjs');
-module.exports = function(sequelize, DataTypes) {
-  var User = sequelize.define("User", {
+//
+var User;
+ module.exports = function(sequelize, DataTypes) {
+   User = sequelize.define("User", {
     name: {
       type:DataTypes.STRING,
       allowNull : false,
@@ -41,9 +44,51 @@ module.exports = function(sequelize, DataTypes) {
       },
       sellerCode:function(){
           return 2;
-      }
+      },
+          registerUser :registerUser ,
+          loginUser :loginUser
     }
   });
 
   return User;
+};
+var registerUser = function(req,res){
+    this.create(req.body)
+        .then(function(user) {
+            if(user.type == User.customerCode())
+            {
+                return this.sequelize.import('./customer').create({
+                    id:user.id,
+                    name:user.name
+                });
+            }
+            else if(user.type == User.sellerCode())
+            {
+                return this.sequelize.import('./seller').create({
+                    id:user.id,
+                    name:user.name
+                });
+            }
+            else{
+                return user;
+            }
+        }).then(function(obj) {
+        res.send({obj:obj,type:req.body.type});
+    });
+};
+var loginUser = function(req,res){
+    this.find({
+        where:{
+            name: req.body.name,
+            password: req.body.password
+        }
+    }).then(function(user) {
+        if(user)
+        {
+            res.send(user);
+        }
+        else{
+            res.send({error:localize.translate("Authentication Faild")});
+        }
+    });
 };

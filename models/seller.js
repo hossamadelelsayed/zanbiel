@@ -29,11 +29,51 @@ module.exports = function(sequelize, DataTypes) {
                     foreignKey:'id',
                     allowNull: false
                 });
-            }
+            },
+        createSeller : createSeller,
+        updateSeller : updateSeller,
+        destroySeller : destroySeller,
+        getSeller : getSeller,
         }
 
     });
 
     return Seller;
 
+};
+
+
+var createSeller = function(req,res){
+    this.create(req.body)
+        .then(function(seller) {
+            res.send(seller);
+        });
+};
+var updateSeller = function(req,res){
+    this.update({
+            name:req.body.name
+        },
+        {
+            where: {
+                id:req.body.id
+            }
+        })
+        .then(function(seller) {
+            res.send(seller);
+        });
+};
+var destroySeller = function(req,res){
+    this.destroy({
+        where: {
+            id: req.body.id
+        }
+    }).then(function() {
+        res.send({"status":1});
+    });
+};
+var getSeller = function(req,res){
+    this.findAll()
+        .then(function(seller) {
+            res.send(seller);
+        });
 };

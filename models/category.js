@@ -1,10 +1,9 @@
 /**
  * Created by a4p2 on 4/5/2017.
  */
-"use strict";
-
+ "use strict";
 module.exports = function(sequelize, DataTypes) {
-    var Category = sequelize.define("Category", {
+     var Category = sequelize.define("Category", {
         name_en: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -27,8 +26,66 @@ module.exports = function(sequelize, DataTypes) {
                 Category.hasMany(models.Product, {
                     foreignKey: 'category_id'
                 });
-            }
+            },
+            createCategory : createCategory,
+            updateCategory : updateCategory,
+            destroyCategory : destroyCategory,
+            getCategories : getCategories,
+            getCategoriesWithProduct:getCategoriesWithProduct
         }
     });
     return Category;
+};
+var createCategory = function(req,res)
+{
+    this.create({
+        name_ar:req.body.name_ar,
+        name_en:req.body.name_en,
+        notes:req.body.notes
+    })
+        .then(function(category) {
+             res.send(category);
+        });
+};
+var updateCategory = function(req,res){
+    this.find({
+        where: {
+            id:req.body.id
+        }
+    }).then(function(category) {
+        category.update({
+                name_ar:req.body.name_ar,
+                name_en:req.body.name_en,
+                notes:req.body.notes
+            },
+            {
+                where: {
+                    id:req.body.id
+                },
+            })
+        res.send(category);
+    })
+};
+var destroyCategory = function(req,res){
+    this.destroy({
+        where: {
+            id: req.body.id
+        }
+    }).then(function() {
+        res.send({"status":1});
+    });
+};
+var getCategories = function(req,res){
+    this.findAll()
+        .then(function(category) {
+            res.send(category);
+        });
+};
+var getCategoriesWithProduct= function(req,res){
+        this.findAll({
+        include: [ this.sequelize.import('./product') ]
+    })
+        .then(function(category) {
+            res.send(category);
+        });
 };

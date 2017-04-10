@@ -12,6 +12,18 @@ module.exports = function(sequelize, DataTypes) {
         price:{
             type : DataTypes.FLOAT,
             allowNull : false
+        },
+        product_id:{
+            type : DataTypes.INTEGER,
+            allowNull : false
+        },
+        order_id:{
+            type : DataTypes.INTEGER,
+            allowNull : false
+        },
+        measure_id:{
+            type : DataTypes.INTEGER,
+            allowNull : false
         }
     }, {
         freezeTableName: true,

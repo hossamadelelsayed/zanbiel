@@ -29,7 +29,11 @@ module.exports = function(sequelize, DataTypes) {
                     foreignKey:'id',
                     allowNull: false
                 });
-            }
+            },
+            createCustomer : createCustomer,
+            updateCustomer : updateCustomer,
+            destroyCustomer : destroyCustomer,
+            getCustomer : getCustomer,
         }
 
     });
@@ -37,3 +41,44 @@ module.exports = function(sequelize, DataTypes) {
     return Customer;
 
 };
+
+var createCustomer = function(req,res){
+    this.create(req.body)
+        .then(function(customer) {
+            res.send(customer);
+        });
+};
+var updateCustomer = function(req,res){
+    this.update({
+            name:req.body.name,
+            address:req.body.address
+        },
+        {
+            where: {
+                id:req.body.id
+            }
+        })
+        .then(function(customer) {
+            res.send(customer);
+        });
+};
+var destroyCustomer = function(req,res){
+    this.destroy({
+        where: {
+            id: req.body.id
+        }
+    }).then(function() {
+        res.send({"status":1});
+    });
+};
+var getCustomer = function(req,res){
+    this.findAll()
+        .then(function(customer) {
+            res.send(customer);
+        });
+};
+
+
+
+
+

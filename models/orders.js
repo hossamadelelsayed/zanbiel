@@ -20,6 +20,10 @@ module.exports = function(sequelize, DataTypes) {
         delivery_date:{
             type : DataTypes.DATE,
             allowNull : false ,
+        },
+        customer_id:{
+            type : DataTypes.INTEGER,
+            allowNull : false ,
         }
     }, {
         freezeTableName: true,
