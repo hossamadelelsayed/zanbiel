@@ -4,65 +4,57 @@
 var models  = require('../models');
 var express = require('express');
 var router  = express.Router();
-
+var localize = require('../public/lang/lang');
 
 router.post('/create', function(req, res) {
-    models.Order.create(req.body)
-        .then(function(order) {
-            res.send(order);
-        });
+    if(req.body.lang)
+        localize.setLocale(req.body.lang);
+    req.check('payment_method', localize.translate("Invalid Payment")).notEmpty();
+    req.check('status', localize.translate("Invalid Status")).notEmpty();
+    req.check('customer_id', localize.translate("Invalid ID")).isInt();
+    req.check('delivery_date', localize.translate("Invalid Date")).isDate();
+    var errors = req.validationErrors();
+    if(!errors)
+    {
+        models.Order.createOrder(req,res);
+    }
+    else{
+        res.send(errors);
+    }
 });
 
 router.post('/update', function(req, res) {
-    models.Order.update(
-        {
-            seller_id:req.body.seller_id,
-            customer_id:req.body.customer_id,
-            delivery_date : req.body.delivery_date,
-            payment_method : req.body.payment_method
-        },
-        {
-            where: {
-                id:req.body.id
-            }
-        })
-        .then(function(order) {
-            res.send(order);
-        });
+    if(req.body.lang)
+        localize.setLocale(req.body.lang);
+    req.check('id', localize.translate("Invalid ID")).isInt();
+    req.check('payment_method', localize.translate("Invalid Payment")).notEmpty();
+    req.check('delivery_date', localize.translate("Invalid Date")).isDate();
+    var errors = req.validationErrors();
+    if(!errors)
+    {
+        models.Order.updateOrder(req,res);
+    }
+    else{
+        res.send(errors);
+    }
 });
 router.post('/destroy', function(req, res) {
-    models.Order.destroy({
-        where: {
-            id: req.body.id
-        }
-    }).then(function() {
-        res.send({"status":1});
-    });
+    if(req.body.lang)
+        localize.setLocale(req.body.lang);
+    req.check('id', localize.translate("Invalid ID")).isInt();
+    var errors = req.validationErrors();
+    if(!errors)
+    {
+        models.Order.destroyOrder(req,res);
+    }
+    else{
+        res.send(errors);
+    }
 });
 router.get('/get', function (req, res) {
-    console.log(models.Order);
-    models.Order.findAll({
-        include: [
-            { model: models.Seller },
-            { model: models.Customer }
-        ]
-    })
-        .then(function(orders) {
-            res.send(orders);
-        });
+    models.Order.getOrder(req,res);
 });
 router.get('/get/:order_id', function (req, res) {
-    models.Order.find({
-        where: {
-            id: req.params.order_id
-        },
-        include: [
-            { model: models.Seller },
-            { model: models.Customer },
-            { model: models.ODetails }
-        ]
-    }).then(function(order) {
-        res.send(order);
-    });
+    models.Order.getOrderByID(req,res);
 });
 module.exports = router;

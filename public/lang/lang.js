@@ -15,6 +15,22 @@ var myLocalize = new Localize({
         "en": "Invalid Password",
         "ar": "تحقق من كلمة المرور"
     },
+    "Invalid Status":{
+        "en": "Invalid Status",
+        "ar": "تحقق من حالة الطلب"
+    },
+    "Invalid Payment":{
+        "en": "Invalid Payment",
+        "ar": "تحقق من طريقة الدفع"
+    },
+    "Invalid Date":{
+        "en": "Invalid Delivery Date",
+        "ar": "تحقق من تاريخ التسليم "
+    },
+    "Invalid Quantity":{
+        "en": "Invalid Quantity",
+        "ar": "تحقق من الكمية"
+    },
     "Invalid Price":{
         "en": "Invalid Price",
         "ar": "سعر غير صحيح"

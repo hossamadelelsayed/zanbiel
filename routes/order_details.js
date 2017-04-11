@@ -4,46 +4,52 @@
 var models  = require('../models');
 var express = require('express');
 var router  = express.Router();
-
+var localize = require('../public/lang/lang');
 
 router.post('/create', function(req, res) {
-    models.ODetails.create(req.body)
-        .then(function(odetails) {
-            res.send(odetails);
-        });
+    if(req.body.lang)
+        localize.setLocale(req.body.lang);
+    req.check('price', localize.translate("Invalid Price")).isFloat();
+    req.check('quantity', localize.translate("Invalid Quantity")).isFloat();
+    req.check('measure_id', localize.translate("Invalid ID")).isInt();
+    req.check('product_id', localize.translate("Invalid ID")).isInt();
+    req.check('order_id', localize.translate("Invalid ID")).isInt();
+    var errors = req.validationErrors();
+    if(!errors)
+    {
+        models.ODetails.createOdetails(req,res);
+    }
+    else{
+        res.send(errors);
+    }
 });
 router.post('/update', function(req, res) {
-    models.ODetails.update(
-        req.body,
-        {
-            where: {
-                id:req.body.id
-            }
-        })
-        .then(function(odetails) {
-            res.send(odetails);
-        });
+    if(req.body.lang)
+        localize.setLocale(req.body.lang);
+    req.check('id', localize.translate("Invalid ID")).isInt();
+    var errors = req.validationErrors();
+    if(!errors)
+    {
+        models.ODetails.updateOdetails(req,res);
+    }
+    else{
+        res.send(errors);
+    }
 });
 router.post('/destroy', function(req, res) {
-    models.ODetails.destroy({
-        where: {
-            id: req.body.id
-        }
-    }).then(function() {
-        res.send({"status":1});
-    });
+    if(req.body.lang)
+        localize.setLocale(req.body.lang);
+    req.check('id', localize.translate("Invalid ID")).isInt();
+    var errors = req.validationErrors();
+    if(!errors)
+    {
+        models.ODetails.destroyOdetails(req,res);
+    }
+    else{
+        res.send(errors);
+    }
 });
 router.get('/get/:order_id', function (req, res) {
-    models.ODetails.find({
-        where: {
-            order_id: req.params.order_id
-        },
-        include: [
-            { model: models.Product },
-            { model: models.MeasureUnit }
-        ]
-    }).then(function(odetails) {
-        res.send(odetails);
-    });
+    models.ODetails.getOdetails(req,res);
 });
 module.exports = router;
