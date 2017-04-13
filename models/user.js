@@ -14,6 +14,16 @@ var User;
       type:DataTypes.STRING,
       allowNull : false
     },
+   email: {
+       type:DataTypes.STRING,
+       allowNull : false,
+       unique: true
+   },
+   mobile: {
+       type:DataTypes.STRING,
+       allowNull : false,
+       unique: true
+   },
     type: {
       type:DataTypes.INTEGER,
       allowNull : false
@@ -57,14 +67,14 @@ var registerUser = function(req,res){
         .then(function(user) {
             if(user.type == User.customerCode())
             {
-                return this.sequelize.import('./customer').create({
+                 this.sequelize.import('./customer').create({
                     id:user.id,
                     name:user.name
                 });
             }
             else if(user.type == User.sellerCode())
             {
-                return this.sequelize.import('./seller').create({
+                 this.sequelize.import('./seller').create({
                     id:user.id,
                     name:user.name
                 });
@@ -72,14 +82,18 @@ var registerUser = function(req,res){
             else{
                 return user;
             }
-        }).then(function(obj) {
-        res.send({obj:obj,type:req.body.type});
-    });
+            return user;
+        }).then(function(user) {
+            res.send(user);
+        //res.send({obj:obj,type:req.body.type});
+        }).catch(function (err) {
+            res.send(err.errors);
+        });
 };
 var loginUser = function(req,res){
     this.find({
         where:{
-            name: req.body.name,
+            email: req.body.email,
             password: req.body.password
         }
     }).then(function(user) {
@@ -90,5 +104,7 @@ var loginUser = function(req,res){
         else{
             res.send({error:localize.translate("Authentication Faild")});
         }
+    }).catch(function (err){
+        res.send(err.errors);
     });
 };

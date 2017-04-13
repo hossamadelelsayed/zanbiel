@@ -38,6 +38,14 @@ var myLocalize = new Localize({
     "Authentication Faild":{
         "en": "Authentication Faild",
         "ar": "الرجاء التحقق من البيانات"
+    },
+    "Invalid Email":{
+        "en": "Invalid Email",
+        "ar": "تحقق من الايميل"
+    },
+    "Invalid Mobile":{
+        "en": "Invalid Mobile",
+        "ar": "تحقق من الهاتف"
     }
 });
 module.exports = myLocalize;
