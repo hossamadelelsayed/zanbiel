@@ -6,6 +6,13 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
 
+
+var app = express();
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 //var routes = require('./routes/index');
 var users  = require('./routes/users');
 var category  = require('./routes/category');
@@ -17,23 +24,6 @@ var seller  = require('./routes/seller');
 var order  = require('./routes/orders');
 var odetails  = require('./routes/order_details');
 
-var app = express();
-
-
-
-app.all('/', function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    next();
-});
-
-app.get('/', function(req, res, next) {
-    // Handle the get for this route
-});
-
-app.post('/', function(req, res, next) {
-    // Handle the post for this route
-});
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
