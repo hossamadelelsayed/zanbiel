@@ -3,6 +3,10 @@
  */
 var Localize = require('localize');
 var myLocalize = new Localize({
+    "And":{
+        "en": "and",
+        "ar": "و"
+    },
     "Invalid Name": {
         "en": "Invalid Name",
         "ar": "الاسم غير صحيح"

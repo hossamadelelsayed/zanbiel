@@ -2,6 +2,7 @@ var models  = require('../models');
 var express = require('express');
 var router  = express.Router();
 var localize = require('../public/lang/lang');
+var helper = require('../helpers/helper');
 var bcrypt = require('bcryptjs');
 
 router.post('/register', function(req, res) {
@@ -18,7 +19,9 @@ router.post('/register', function(req, res) {
         models.User.registerUser(req,res);
     }
     else{
-        res.send(errors);
+        res.send({
+            error : helper.errorHandling(errors)
+        });
     }
 });
 router.post('/login', function(req, res) {
@@ -32,7 +35,9 @@ router.post('/login', function(req, res) {
         models.User.loginUser(req,res);
     }
     else{
-        res.send(errors);
+        res.send({
+            error : helper.errorHandling(errors)
+        });
     }
 });
 
