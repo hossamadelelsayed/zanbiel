@@ -7,6 +7,14 @@ var myLocalize = new Localize({
         "en": "and",
         "ar": "و"
     },
+    "Duplicate email": {
+        "en": "Duplicate email",
+        "ar": "الايميل موجود بالفعل"
+    },
+    "Duplicate mobile": {
+        "en": "Duplicate mobile",
+        "ar": "الموبايل موجود بالفعل"
+    },
     "Invalid Name": {
         "en": "Invalid Name",
         "ar": "الاسم غير صحيح"

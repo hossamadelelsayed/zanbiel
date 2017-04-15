@@ -21,6 +21,16 @@ function errorHandling(errors){
     }
     return error;
 }
+function errorDbHandling(errors){
+    var error = "";
+    for (var i = 0, len = errors.length; i < len; i++) {
+        if(errors[i].type == "unique violation"){
+            error += localize.translate("Duplicate "+errors[i].path);
+        }
+    }
+    return error;
+}
 module.exports = {
-    errorHandling :errorHandling
+    errorHandling :errorHandling,
+    errorDbHandling:errorDbHandling
 } ;

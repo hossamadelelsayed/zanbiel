@@ -1,5 +1,6 @@
 "use strict";
 var localize = require('../public/lang/lang');
+var helper = require('../helpers/helper');
 //var bcrypt = require('bcryptjs');
 //
 var User;
@@ -86,7 +87,10 @@ var registerUser = function(req,res){
             res.send(user);
         //res.send({obj:obj,type:req.body.type});
         }).catch(function (err) {
-            res.send(err.errors);
+            //err.errors
+            res.send({
+                error : helper.errorDbHandling(err.errors)
+            });
         });
 };
 var loginUser = function(req,res){
