@@ -82,8 +82,19 @@ var getCategories = function(req,res){
         });
 };
 var getCategoriesWithProduct= function(req,res){
+    var name= 'name_en';
+    if(req.query.lang && req.query.lang == 'ar')
+    {
+        name= 'name_ar';
+    }
         this.findAll({
-        include: [ this.sequelize.import('./product') ]
+        attributes: [[name, 'name']],
+        include: [
+            { model: this.sequelize.import('./product'),
+              attributes: ['id','category_id',[name, 'name']]
+            },
+
+        ]
     })
         .then(function(category) {
             res.send(category);
