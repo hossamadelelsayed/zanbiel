@@ -60,7 +60,33 @@ router.get('/get', function (req, res) {
 
 
 router.get('/with/products', function (req, res) {
-    models.Category.getCategoriesWithProduct(req,res);
+    var name= 'name_en';
+    if(req.query.lang && req.query.lang == 'ar')
+    {
+        name= 'name_ar';
+    }
+    models.Category.findAll({
+        attributes: ['id',[name, 'name']],
+        include: [
+            {
+                model : models.Product,
+                attributes: ['id','category_id',[name, 'name']],
+                include: [
+                    {
+                        model : models.MeasureUnit ,
+                        attributes: ['id','price',[name, 'name']]
+                    },
+                    {
+                        model : models.Image
+                    }
+                    ]
+            }]
+    })
+
+        .then(function(category) {
+            res.send(category);
+        });
+   /* models.Category.getCategoriesWithProduct(req,res);*/
 });
 
 

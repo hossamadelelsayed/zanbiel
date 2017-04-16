@@ -2,6 +2,8 @@
  * Created by a4p2 on 4/5/2017.
  */
  "use strict";
+
+var MeasureUnit  = require('./measure_unit');
 module.exports = function(sequelize, DataTypes) {
      var Category = sequelize.define("Category", {
         name_en: {
@@ -90,13 +92,16 @@ var getCategoriesWithProduct= function(req,res){
         this.findAll({
         attributes: [[name, 'name']],
         include: [
-            { model: this.sequelize.import('./product'),
-              attributes: ['id','category_id',[name, 'name']]
-            },
-
-        ]
+            {model : MeasureUnit , attributes: [name, "name"] }]
     })
+
         .then(function(category) {
             res.send(category);
         });
 };
+/*
+* this.findAll({
+ attributes: [[name, 'name']],
+ include: [{ all: true, nested: true }]
+ })
+* */
