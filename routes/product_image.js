@@ -5,6 +5,7 @@ var models  = require('../models');
 var express = require('express');
 var router  = express.Router();
 var localize = require('../public/lang/lang');
+var helper = require('../helpers/helper');
 
 router.post('/create', function(req, res) {
     if(req.body.lang)
@@ -17,7 +18,9 @@ router.post('/create', function(req, res) {
         models.Image.createImage(req,res);
     }
     else{
-        res.send(errors);
+        res.send({
+            error : helper.errorHandling(errors)
+        });
     }
 });
 router.post('/update', function(req, res) {
@@ -32,7 +35,9 @@ router.post('/update', function(req, res) {
         models.Image.updateImage(req,res);
     }
     else{
-        res.send(errors);
+        res.send({
+            error : helper.errorHandling(errors)
+        });
     }
 });
 
@@ -46,7 +51,9 @@ router.post('/destroy', function(req, res) {
         models.Image.destroyImage(req,res);
     }
     else{
-        res.send(errors);
+        res.send({
+            error : helper.errorHandling(errors)
+        });
     }
 });
 
