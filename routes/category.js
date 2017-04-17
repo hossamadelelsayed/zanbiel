@@ -79,7 +79,7 @@ router.get('/with/products', function (req, res) {
                     {
                         model : models.Image
                     }
-                    ]
+                ]
             }]
     })
 

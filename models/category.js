@@ -84,7 +84,8 @@ var getCategories = function(req,res){
         });
 };
 var getCategoriesWithProduct= function(req,res){
-    var name= 'name_en';
+    //not used
+    /*var name= 'name_en';
     if(req.query.lang && req.query.lang == 'ar')
     {
         name= 'name_ar';
@@ -97,11 +98,5 @@ var getCategoriesWithProduct= function(req,res){
 
         .then(function(category) {
             res.send(category);
-        });
+        });*/
 };
-/*
-* this.findAll({
- attributes: [[name, 'name']],
- include: [{ all: true, nested: true }]
- })
-* */

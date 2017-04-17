@@ -51,7 +51,12 @@ var createImage = function(req,res) {
     var image = req.body.name;
     var bitmap = new Buffer(image, 'base64');
     var fileName = new Date()+".png";
-    fs.writeFileSync("../public/images/"+fileName, bitmap);
+    var base64Data = req.rawBody.replace(/^data:image\/png;base64,/, "");
+
+    require("fs").writeFile("out.png", base64Data, 'base64', function(err) {
+        console.log(err);
+    });
+    //fs.writeFileSync("../public/images/"+fileName, bitmap);
     this.create({
         name:fileName,
         title:req.body.title,
